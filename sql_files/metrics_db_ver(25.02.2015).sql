@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `weekly_report_manager` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
--- Table structure for table `weekly_report_requirement`
+-- Table str ucture for table `weekly_report_requirement`
 --
 
 CREATE TABLE IF NOT EXISTS `weekly_report_requirement` (
