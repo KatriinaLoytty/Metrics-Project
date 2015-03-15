@@ -12,10 +12,12 @@
 	<script src="scripts/metrics-elements-1.0.0.js"></script>
 	<script src="scripts/jquery-1.11.1.min.js"></script>	
 	<style type="text/css">
-	${demo.css}
+	
+ 
 	</style>
     </head>
  
+    
     
     <body>
 	<script src="scripts/highcharts/js/highcharts.js"></script>
