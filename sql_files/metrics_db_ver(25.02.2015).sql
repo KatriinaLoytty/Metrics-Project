@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `link_table` (
 --
 
 CREATE TABLE IF NOT EXISTS `member` (
-  `member_id` int(10) NOT NULL,
+  `member_id` int(10) NOT NULL AUTO_INCREMENT,
   `account` varchar(30) CHARACTER SET latin1 DEFAULT NULL,
   `password` varchar(30) CHARACTER SET latin1 DEFAULT NULL,
   `first_name` varchar(20) CHARACTER SET latin1 DEFAULT NULL,

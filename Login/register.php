@@ -26,6 +26,7 @@ if (isset($_POST['uname']) && isset($_POST['pass']) && isset($_POST['reg'])) {
 	if ($result=mysqli_query($con,$query))
   	{
   	  // Return the number of rows in result set
+            
  	  $rowcount=mysqli_num_rows($result);
 	  if ($rowcount != 0)
           {
