@@ -21,27 +21,38 @@ if (isset($_POST['uname']) && isset($_POST['pass']) && isset($_POST['reg'])) {
 	$lname = $_POST['lname'];
 	$email = $_POST['email'];
 	$phone = $_POST['pnumb'];
-	$query = "SELECT `account` FROM `member` WHERE `account`='$username';";
-	
-	if ($result=mysqli_query($con,$query))
-  	{
-  	  // Return the number of rows in result set
+        $verificationCode = $_POST['verification_code'];
+        
+        if ($verificationCode==256)
+        {
+            $query = "SELECT `account` FROM `member` WHERE `account`='$username';";
+
+            if ($result=mysqli_query($con,$query))
+            {
+              // Return the number of rows in result set
+
+              $rowcount=mysqli_num_rows($result);
+              if ($rowcount != 0)
+              {
+                    echo "Username already exists";
+              }
+              else {
+                 $query = "INSERT INTO `member`(`account`, `password`, `first_name`, `last_name`, `level_of_priviledges`, `email`, `phonenumber`) VALUES ('$username','$password','$fname','$lname','','$email','$phone');";
+                 if (!mysqli_query($con, $query)) {
+                     echo"haara 1";
+                 } else {
+                       // Redirect
+                     echo"haara 2";
+                    header("Location: ../main/index.php");		  	
+                 }
+              }
+            }
+        }
+        else
+        {
             
- 	  $rowcount=mysqli_num_rows($result);
-	  if ($rowcount != 0)
-          {
-		echo "Username already exists";
-          }
-	  else {
-	     $query = "INSERT INTO `member`(`account`, `password`, `first_name`, `last_name`, `level_of_priviledges`, `email`, `phonenumber`) VALUES ('$username','$password','$fname','$lname','','$email','$phone');";
-             if (!mysqli_query($con, $query)) {
-                 echo"haara 1";
-	     } else {
-                   // Redirect
-                 echo"haara 2";
-		header("Location: ../main/index.php");		  	
-             }
-	  }
-	}
+            Echo "Wrong verification code";
+        }
+        
 }
 ?>
