@@ -36,11 +36,11 @@ var mm = today.getMonth()+1; // January is 0!
 var yyyy = today.getFullYear();
 
 if(dd<10) {
-    dd='0'+dd;
-}
+    dd='0'+dd
+};
 
 if(mm<10) {
-    mm='0'+mm;
+    mm='0'+mm
 }
 
 today = mm+'.'+dd+'.'+yyyy;
@@ -53,7 +53,7 @@ initFields();
 
 Text file parser.
 Called after choosing a text file.
-TODO clearfields is clearing the board
+
 -----------------*/
 
     function readSingleFile(evt) {
@@ -102,7 +102,7 @@ TODO clearfields is clearing the board
                     getData(i, emailregex, "client", arrayOfLines, detectedkey);
                 }
             }
-        };
+        }
         r.readAsText(f);
       }
 
@@ -144,11 +144,9 @@ function addToSection(detectedkey){
         var numofitems = document.getElementById(detectedkey+"_container").getAttribute("name");
         var subkey = detectedkey.substr(1);
 
-        // if(detectedkey == "#title"){
-        //     console.log("");
-        // }
-        // else
-        if(detectedkey == "#time" || detectedkey == "#project"){
+        if(detectedkey == "#title"){
+        }
+        else if(detectedkey == "#time" || detectedkey == "#project"){
             if(!document.getElementById(subkey+"_0")){
                 CreateInput("",subkey,1,0,detectedkey,"text_input");
             }
@@ -250,7 +248,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                         if(arrayOfLines[t] == "In_progress:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
-                        subcounter++;
+                        subcounter++
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("0", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
                     }
@@ -263,7 +261,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                         if(arrayOfLines[t] == "Resolved:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
-                        subcounter++;
+                        subcounter++
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("1", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
                     }
@@ -276,7 +274,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                         if(arrayOfLines[t] == "Feedback:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
-                        subcounter++;
+                        subcounter++
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("2", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
                     }
@@ -289,7 +287,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                         if(arrayOfLines[t] == "Closed:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
-                        subcounter++;
+                        subcounter++
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("3", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
                     }
@@ -302,7 +300,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                         if(arrayOfLines[t] == "Rejected:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
-                        subcounter++;
+                        subcounter++
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("4", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
                     }
@@ -315,7 +313,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                         if(arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
-                        subcounter++;
+                        subcounter++
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("5", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
 
@@ -528,7 +526,7 @@ var placeholder = "";
     var finalObject = [];
     var otherinfo = [{time: "", project_name: "", description: "",
     	            passed_unit_test: 0 , passed_other_test: 0, total_unit_test: 0,total_other_test: 0,
-                    reportid: 0, projectid: 0, phase: "", additional:""}];
+                    reportid: 0, projectid: 0, phase: "", additional:"",}];
 
 
     /*---------------------
@@ -724,17 +722,18 @@ var placeholder = "";
     function sendData() {
         $.ajax({
             url : "database_in.php",
-            type : "POST",
-            dataType : "text",
+            dataType   : "json",
             contentType: "application/json",
+            type : "POST",
             data : JSON.stringify(finalObject),
-            success : function(response) {
-                alert(response);
+            success : function(finalObject) {
+            console.log("success!");
+            alert("Data Added To Database");
 
             },
-            error : function(response) {
-                console.log(response);
-            }
+            error : function(errorThrown) {
+                console.log(errorThrown);
+            },
         });
     }
 
