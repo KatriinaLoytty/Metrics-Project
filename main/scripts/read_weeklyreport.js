@@ -65,7 +65,7 @@ TODO clearfields is clearing the board
         contents = e.target.result;
 
         // Creates an array matching regex:
-        var arrayOfLines = contents.match(/[^\r\n]+/g);
+        var arrayOfLines = contents.match(/[^\r\n]+[a-zA-Z0-9äöÄÖÅå:]+/g);
 
         // Regex patterns used for matching certain strings
         var emailregex = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
@@ -75,7 +75,6 @@ TODO clearfields is clearing the board
         var detectedkey = "";
         var divs_open = "";
         var divs_close = "";
-
         var buttons = "";
 
         // Loops thru the information searching for keywords:
@@ -220,7 +219,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
     var keywordsub = detectedkey.substr(1);
     var counter = 1;
     var subcounter = 0;
-    var hoursRegex = /\d+\/\d+/;
+    var hoursRegex = /[0-9]*\.?[0-9]\/[0-9]*\.?[0-9]/;
     var textRegex = /[a-zA-Z]*\s+[a-zA-Z]*/;
     var extractedHours = "";
     var excludedHours = "";
@@ -237,16 +236,10 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 CreateInput(arrayOfLines[k], keywordsub, 1, 0, detectedkey, "text_input");
             }
 
-
-/* REQUIREMENTS */
-// match(/(^|\s)(#[a-z\d-]+)/) = Matches for '#' in text
-
             else if(detectedkey == "#req"){
 
                 if(arrayOfLines[k] == "New:"){
-
                     for(t = k+1; t<arrayOfLines.length; t++){
-
                         if(arrayOfLines[t] == "In_progress:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
@@ -257,9 +250,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 }
 
                 if(arrayOfLines[k] == "In_progress:"){
-
                     for(t = k+1; t<arrayOfLines.length; t++){
-
                         if(arrayOfLines[t] == "Resolved:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
@@ -270,9 +261,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 }
 
                 if(arrayOfLines[k] == "Resolved:"){
-
                     for(t = k+1; t<arrayOfLines.length; t++){
-
                         if(arrayOfLines[t] == "Feedback:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
@@ -283,9 +272,7 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 }
 
                 if(arrayOfLines[k] == "Feedback:"){
-
                     for(t = k+1; t<arrayOfLines.length; t++){
-
                         if(arrayOfLines[t] == "Closed:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
@@ -298,7 +285,6 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 if(arrayOfLines[k] == "Closed:"){
 
                     for(t = k+1; t<arrayOfLines.length; t++){
-
                         if(arrayOfLines[t] == "Rejected:" || arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
@@ -309,22 +295,17 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 }
 
                 if(arrayOfLines[k] == "Rejected:"){
-
                     for(t = k+1; t<arrayOfLines.length; t++){
-
                         if(arrayOfLines[t].match(/(^|\s)(#[a-z\d-]+)/)) {
                             break;
                         }
                         subcounter++;
                         CreateInput(arrayOfLines[t], keywordsub+"_name", 0, subcounter, detectedkey, "text_input");
                         CreateInput("5", keywordsub+"_status", 1, subcounter, detectedkey, "dropdown");
-
                     }
                 }
 
             }
-
-/*------------------*/
 
             else if(detectedkey == "#client" || detectedkey == "#managers"){
 
@@ -335,24 +316,32 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 if(extractedRegex != null){
                     excludedRegex = arrayOfLines[k].replace(extractedRegex[0],'');
                     excludedRegex = excludedRegex.trim();
+                    excludedRegex = excludedRegex.match(/[\w\s]+[a-zA-Z0-9äöÄÖÅå]/);
                 }else{
                     extractedRegex = "";
                 }
                 CreateInput(excludedRegex, keywordsub+"_name", 0, counter, detectedkey, "text_input");
                 CreateInput(extractedRegex[0], keywordsub+"_email", 1, counter, detectedkey, "text_input");
             }
-            else if(detectedkey == "#tasks_comp" || detectedkey == "#tasks_next"|| detectedkey == "#milestone"
-                   || detectedkey == "#revisions" || detectedkey == "#problems"){
+            else if(detectedkey == "#tasks_comp" || detectedkey == "#task_comp" || detectedkey == "#tasks_next" || detectedkey == "#task_next"
+                || detectedkey == "#milestone" || detectedkey == "#miletone" || detectedkey == "#miletones"
+                || detectedkey == "#revisions" || detectedkey == "#revision" || detectedkey == "#problems" || detectedkey == "#problem" ){
+                console.log(detectedkey);
                 CreateInput(arrayOfLines[k], keywordsub, 1, counter, detectedkey, "text_input", "text_input");
             }
 
             else if(detectedkey == "#desc"){
+
                 if(document.getElementById("desc")){
                     text += arrayOfLines[k-1]+"&#13;&#10;";
                     document.getElementById("desc").innerHTML = text;
                 }else{
                     document.getElementById(detectedkey+"_container").innerHTML +=
                     "<textarea type='text' id='desc' style='width: 70%; height: 110px;'></textarea><br>";
+                    if (arrayOfLines[k][0] != "#") {
+                        text += arrayOfLines[k]+"&#13;&#10;";
+                        document.getElementById("desc").innerHTML = text;
+                    }
                 }
             }
 
@@ -363,6 +352,11 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 }else{
                     document.getElementById(detectedkey+"_container").innerHTML +=
                     "<textarea type='text' id='phase' style='width: 70%; height: 110px;'></textarea><br>";
+
+                    if (arrayOfLines[k][0] != "#") {
+                        text += arrayOfLines[k]+"&#13;&#10;";
+                        document.getElementById("phase").innerHTML = text;
+                    }
                 }
             }
 
@@ -373,11 +367,17 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                 }else{
                     document.getElementById(detectedkey+"_container").innerHTML +=
                     "<textarea type='text' id='additional' style='width: 70%; height: 110px;'></textarea><br>";
+
+                    if (arrayOfLines[k][0] != "#") {
+                        text += arrayOfLines[k]+"&#13;&#10;";
+                        document.getElementById("additional").innerHTML = text;
+                    }
+
                 }
             }
 
             else if(detectedkey == "#hours"){
-
+                // extractedHours = array Number
                 extractedHours = hoursRegex.exec(arrayOfLines[k]);
                 excludedHours = arrayOfLines[k].replace(extractedHours,'');
                 excludedHours = excludedHours.trim();
@@ -387,8 +387,20 @@ function getData(i, regex, idprefix, arrayOfLines, detectedkey){
                     CreateInput(excludedHours, keywordsub+"_name", 0, counter, detectedkey, "text_input");
                     CreateInput(splithours[0], keywordsub+"_spent", 0, counter, detectedkey, "hour_input");
                     CreateInput(splithours[1], keywordsub+"_total", 1, counter, detectedkey, "hour_input");
-                }else{
-                    CreateInput(excludedHours, keywordsub+"_names", 1,""+i+"_"+counter, detectedkey, "text_input");
+                }
+                else{
+                    var secondvarible = arrayOfLines[k].split("/");
+                    if (secondvarible.length == 2){
+                        var splithours = [];
+                        splithours[0] = 0;
+                        splithours[1] = secondvarible[1];
+                        CreateInput(excludedHours, keywordsub+"_name", 0, counter, detectedkey, "text_input");
+                        CreateInput(splithours[0], keywordsub+"_spent", 0, counter, detectedkey, "hour_input");
+                        CreateInput(splithours[1], keywordsub+"_total", 1, counter, detectedkey, "hour_input");
+                    }
+                    else {
+                        CreateInput(excludedHours, keywordsub+"_names", 1,""+i+"_"+counter, detectedkey, "text_input");
+                    }
                 }
             }
 
