@@ -1,5 +1,5 @@
 /*
-Tommi Tuominen and Jueran Huang
+Tommi Tuominen and Jueran Huang and Mohammad Jafarzadeh Rezvan
 Metrics Monitoring Tool
 Project Work 2014/2015
 Updated: 14.2.2015
@@ -598,7 +598,7 @@ var placeholder = "";
                 }else{console.log("error getting passed_other_test!");}
 
                 if(document.getElementById("total_other_test_0")){
-                	otherinfo[0].total_unit_test = document.getElementById("total_unit_test_0").value;
+                	otherinfo[0].total_unit_test = document.getElementById("total_other_test_0").value;
                 }else{console.log("error getting total_unit_test!");}
 
                 otherinfo[0].reportid = reportid;
@@ -742,10 +742,10 @@ var placeholder = "";
             data : JSON.stringify(finalObject),
             success : function(response) {
                 alert(response);
-
+                console.log(response);
             },
             error : function(response) {
-                console.log(response);
+                console.log("Failed :" + response);
             }
         });
     }

@@ -7,7 +7,7 @@ $decoded_json = json_decode($json);
 
 // Check connection
 if (mysqli_connect_errno($con)) {
-	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	//echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
 else {
@@ -44,46 +44,62 @@ else {
 	$status = 1;
 	$version = 1;
 
+	$countError = 0;
+	$queryFailed = "";
 	$query = "INSERT INTO `weekly_report`(`project_id`, `number_of_week`, `project_phase`,
 		`completed_tasks`, `task_for_nextweek`, `schedule_status`, `next_milestone`, `working_hours`, `passed_unit_testcases`,`total_unit_testcases`,
 		`passed_other_testcases`,`total_other_testcases`, `code_revisions`, `problems`, `changes_in_project_plan`, `things_to_mention`)
 	VALUES ($project_id,$number_of_week,'$project_phase','$completed_tasks','$task_for_nextweek','$schedule_status',
 		'$next_milestone','$workinghours',$passed_unit_testcases,$total_unit_testcases,$passed_other_testcases,$total_other_testcases,'$code_revisions','$problems','$changes_in_project_plan','$things_to_mention');";
 
+	if(!mysqli_query($con, $query))
+	{
+		$countError++;
+		$queryFailed .= $query."\r\n";
+	}
+
+	$report_id = mysqli_insert_id($con);
+
 	for($i=0;$i<count($requirements);$i++){
-	    $query .= "INSERT INTO `weekly_report_requirement`(`project_id`, `requirement_name`,  `requirement_status`)
+	    $query = "INSERT INTO `weekly_report_requirement`(`project_id`, `requirement_name`,  `requirement_status`)
 	    VALUES($project_id, '" . $requirements[$i]->name . "'," . $requirements[$i]->status .");";
+
+		if(!mysqli_query($con, $query))
+		{
+			$countError++;
+			$queryFailed .= $query."\r\n";
+		}
 	}
 
 	for($i=0;$i<count($project_manager);$i++){
-	    $query .= "INSERT INTO `weekly_report_manager`(`project_id`, `report_id`, `manager_name`,  `manager_email`)
-	    VALUES($project_id, '" . $project_manager[$i]->name . "','" . $project_manager[$i]->email . "');";
+	    $query = "INSERT INTO `weekly_report_manager`(`project_id`, `report_id`, `manager_name`,  `manager_email`)
+	    VALUES($project_id, $report_id, '" . $project_manager[$i]->name . "','" . $project_manager[$i]->email . "');";
+
+		if(!mysqli_query($con, $query))
+		{
+			$countError++;
+			$queryFailed .= $query."\r\n";
+		}
 	}
 
-	$query .= "INSERT INTO `project`(`project_id`, `project_name`, `created_on`, `updated_on`, `status`, `version`, `discription`)
+	$query = "INSERT IGNORE INTO `project`(`project_id`, `project_name`, `created_on`, `updated_on`, `status`, `version`, `discription`)
 	VALUES($project_id, '$project_name', '$created_on','$updated_on', $status, $version, '$description')";
 
-	try {
-
-		if (mysqli_multi_query($con, $query)) {
-			echo "Data Added To Database";
-		    /*do {
-			if ($result = mysqli_store_result($con)) {
-			    while ($row = mysqli_fetch_row($result)) {
-				printf("%s\n", $row[0]);
-			    }
-			    mysqli_free_result($result);
-			}
-			if (mysqli_more_results($con)) {
-			    printf("-----------------\n");
-			}
-		    } while (mysqli_next_result($con));*/
-		}
-
-	} catch (Exception $e) {
-	    var_dump($e->getMessage());
-		echo "error : " + $e->getMessage();
+	if(!mysqli_query($con, $query))
+	{
+		$countError++;
+		$queryFailed .= $query."\r\n";
 	}
+
+	if ($countError===0)
+	{
+		echo "Data successfully added";
+	}
+	else {
+		echo $countError . " Query failed! \r\n The Query which Failed are " . $queryFailed;
+	}
+
+
 }
 
 mysqli_close($con);

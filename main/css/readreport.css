@@ -47,6 +47,10 @@ body{
     float:right;
 }
 
+#projectid{
+    visibility: hidden;
+}
+
 @media print {
     .no-print{
         display:none;

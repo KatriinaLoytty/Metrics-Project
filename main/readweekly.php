@@ -32,18 +32,17 @@
 
         <div id="maincontent">
 
-	    <script>
-	    createHeader("Read from weekly report", 2);
-	    </script>
+    	    <script>
+    	    createHeader("Read from weekly report", 2);
+    	    </script>
 
-	    <div class="databox_wide">
+    	    <div class="databox_wide">
 
-		<div id="weeklymain">
-		    <div id="handledContents">
-		    </div>
-		</div>
+        		<div id="weeklymain">
+        		    <div id="handledContents"></div>
+        		</div>
 
-	    </div>
+    	    </div>
 
         </div>
 
