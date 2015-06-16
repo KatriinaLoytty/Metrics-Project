@@ -131,8 +131,8 @@ function createHeader(text, type) {
                     option.text = data[i].project_name;
                     comboBox.add(option);
                 }
-
             },
+
             error: function(errorThrown) {
                 console.log(errorThrown);
                 console.log("error");
