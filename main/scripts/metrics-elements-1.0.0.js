@@ -217,8 +217,9 @@ function createListForPublic()
             var created_on   = data.created_on;
             var updated_on   = data.updated_on;
             var status       = data.status;
-            var versionz       = data.version;
-            var description       = data.description;
+            var versionz     = data.version;
+            var description  = data.description;
+            var hours        = data.working_hours;
 
             document.getElementById("project_name").value = project_name;
             document.getElementById("created_on").value = created_on;
@@ -226,6 +227,7 @@ function createListForPublic()
             document.getElementById("status").value = status;
             document.getElementById("version").value = versionz;
             document.getElementById("desc").value = description;
+            document.getElementById("hours").value = hours;
         },
 
         error: function(errorThrown) {

@@ -33,25 +33,15 @@ if(isset($_GET["id"]))
 
     $project["working_hours"] = 0;
 
-    $query = "SELECT `hours` FROM `individual_work` WHERE (`project_id` = '18');";
+    $query = "SELECT `hours` FROM `individual_work` WHERE (`project_id` = '$id');";
     $result_project = mysqli_query($con, $query);
-    $row_project = mysqli_fetch_array($result_project);
+    while ($row_project = mysqli_fetch_array($result_project)) {
+	       $project["working_hours"] += $row_project['hours'];
+    }
 
-    $project["working_hours"] += $row_project['hours'];
+
 
     echo json_encode($project);
-
-
-
-    /*
-
-        echo $row["project_name"];
-        echo $row["created_on"];
-        echo $row["updated_on"];
-        echo $row["status"];
-        echo $row["version"];
-        echo $row["discription"];
-    */
 }
 
 ?>
