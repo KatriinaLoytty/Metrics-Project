@@ -20,11 +20,7 @@ if(isset($_GET["id"]))
     // Query
     $query = "SELECT * FROM `project` WHERE (`project_id` = '$id');";
     $result_project = mysqli_query($con, $query);
-<<<<<<< HEAD
     $row_project = mysqli_fetch_array($result_project);
-=======
-    while ($row_project = mysqli_fetch_array($result_project)) {
->>>>>>> origin/master
 	$project = array(
 	    "project_id" => $row_project['project_id'],
 	    "project_name" => $row_project['project_name'],
@@ -34,7 +30,6 @@ if(isset($_GET["id"]))
 	    "version" => $row_project['version'],
 	    "description" => $row_project['discription']
 	);
-<<<<<<< HEAD
 
     $project["working_hours"] = 0;
 
@@ -43,9 +38,6 @@ if(isset($_GET["id"]))
     $row_project = mysqli_fetch_array($result_project);
 
     $project["working_hours"] += $row_project['hours'];
-=======
-    }
->>>>>>> origin/master
 
     echo json_encode($project);
 
