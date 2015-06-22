@@ -22,6 +22,10 @@ var projectList = {};
 function createTop(title) {
 
     if (title == null) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
         document.write("" +
             "<div id=\"top\" style=\"border-bottom: 1px solid silver; height: 40px;\">" +
             "<div style=\"float: left; width: 400px;\">" +
@@ -49,7 +53,30 @@ function createTop(title) {
             "<a href=\"../Login/logout.php\">Logout</a></div>" +
 
             "</div>");
+<<<<<<< HEAD
     }
+=======
+    }
+=======
+        title = username;
+    }
+    //"User" is therefore a placeholder for whenever createTop() is called without parameters,
+    //whether deliberately or not.
+    document.write("" +
+        "<div id=\"top\" style=\"border-bottom: 1px solid silver; height: 40px;\">" +
+        "<div style=\"float: left; width: 400px;\">" +
+        "<img src=\"../main/images/logo.jpg\" ><br><br>" +
+        "</div>" +
+
+        "<div id=\"top_mid\" style=\"width: 300px; float: left;\">Logged in as: " + title +
+        "</div>" +
+
+        "<div id=\"top_mid\" style=\"width: 300px; float: right;\">" +
+        "<a href=\"../Login/logout.php\">Logout</a></div>" +
+
+        "</div>");
+>>>>>>> origin/master
+>>>>>>> origin/master
 }
 
 //Function used for creating the navigation
@@ -200,6 +227,10 @@ function CreateProjectList(projectList, i) {
         "<span class='projinfo_left'>Description: " + projectList[i].description + "</span>" +
         "</div>";
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 function createListForPublic()
 {
@@ -243,3 +274,8 @@ vars[key] = value;
 });
 return vars;
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master

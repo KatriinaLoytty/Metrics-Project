@@ -47,10 +47,13 @@
 							<label>Description      :</label>
 							<input type="text" id="desc">
 						</li>
+<<<<<<< HEAD
                         <li>
                             <label>Total Hours      :</label>
                             <input type="text" id="hours">
                         </li>
+=======
+>>>>>>> origin/master
 					</ol>
 			</div>
 
