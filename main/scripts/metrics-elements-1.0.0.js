@@ -2,7 +2,7 @@
 Tommi Tuominen and Mohammad Jafarzadeh Rezvan
 Metrics Monitoring Tool
 Project Work 2014/2015
-Updated: 5.1.2015
+Updated: 3.8.2015
 This file is used for dynamic creation of basic website elements.
 ----------------------
 TODO:
@@ -115,7 +115,7 @@ function createHeader(text, type) {
             "<div style='width: 1100px; margin-left: 10px;'>" +
 
             "<div style='width: 600px; float: right;'>"+
-            "<select id=\"projectComboBox\" onchange=\"onChangeComboBox()\"> <option>New</option> <option>Random</option> </select>" +
+            "<select id=\"projectComboBox\" onchange=\"onChangeComboBox()\"> <option>New</option> </select>" +
             "<br>"+
             "<input type=\"button\" onclick=\"clicked()\" value=\"Send to db\"/>" +
             "</div>"+
@@ -150,25 +150,11 @@ function createHeader(text, type) {
             },
         });
 
-    }
-}
-
-
-function onChangeComboBox() {
-    var comboBox = document.getElementById("projectComboBox");
-    var textBox = document.getElementById("projectid");
-    var selectedValue = comboBox.options[comboBox.selectedIndex].value;
-    if (selectedValue == "New") {
-        textBox.value = "";
-    } else if (selectedValue == "Random") {
+        // Default is in new one
+        var textBox = document.getElementById("projectid");
         var randomNumber = Math.random() * 100000 | 0;
         textBox.value = randomNumber;
-    } else {
-        for (var i = 0, len = projectList.length, selectedIndex = comboBox.selectedIndex-2; i < len; i++) {
-            if (selectedIndex == i) {
-                textBox.value = projectList[i].project_id;
-            }
-        }
+
     }
 }
 
@@ -234,14 +220,58 @@ function createListForPublic()
             //console.log("yes");
         },
     });
-
-
 }
 
 function getUrlVars() {
-var vars = {};
-var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-vars[key] = value;
-});
-return vars;
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    vars[key] = value;
+    });
+    return vars;
+}
+
+function createPublicAllElement(){
+
+    // 1. Read public projects from Database
+
+    // Connect To Database
+    $.ajax({
+        url: "../Login/public.php",
+        type: "POST",
+        dataType: "json",
+        success: function(data) {
+            // Create Elements for each project
+            for (var i = 0, len = data.length; i < len; i++) {
+                document.getElementById("publicAll").innerHTML +=
+                    "<label>Project Name:</label>"+
+                    "<input type=\"text\" id=\"project_name\" value=\""+data[i].project_name+"\">"+
+                    "<br>"+
+                    "<label>Created On :</label>"+
+                    "<input type=\"text\" id=\"created_on\" value=\""+data[i].created_on+"\">"+
+                    "<br>"+
+                    "<label>Updated On   :</label>"+
+                    "<input type=\"text\" id=\"updated_on\" value=\""+data[i].updated_on+"\">"+
+                    "<br>"+
+                    "<label>Status :</label>"+
+                    "<input type=\"text\" id=\"status\" value=\""+data[i].status+"\">"+
+                    "<br>"+
+                    "<label>Version      :</label>"+
+                    "<input type=\"text\" id=\"version\" value=\""+data[i].version+"\">"+
+                    "<br>"+
+                    "<label>Description      :</label>"+
+                    "<input type=\"text\" id=\"desc\" value=\""+data[i].description+"\">"+
+                    "<br>"+
+                    "<label>Total Hours      :</label>"+
+                    "<input type=\"text\" id=\"hours\" value=\""+data[i].working_hours+"\">"+
+                    "<br>"+
+                    "<br>";
+
+            };
+        },
+
+        error: function(errorThrown) {
+            console.log(errorThrown);
+            console.log("error");
+        },
+    });
 }

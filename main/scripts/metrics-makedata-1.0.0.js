@@ -161,7 +161,31 @@ UNIQUE TO PROJECT DETAILS SITE
 function projectRequirements(){
     if(objects.weekly_requirement != 0 || objects.weekly_requirement != null){
         for(var i=0; i<objects.weekly_requirement.length; i++){
-            document.getElementById("reqbox").innerHTML += ""+objects.weekly_requirement[i].requirement_name+" (" +objects.weekly_requirement[i].requirement_status+ ")<br>";
+			
+			var requirement_status_name = "";
+			switch(objects.weekly_requirement[i].requirement_status) {
+				case "1":
+					requirement_status_name = "New";
+					break;
+				case "2":
+					requirement_status_name = "In Progress";
+					break;
+				case "3":
+					requirement_status_name = "Resolved";
+					break;
+				case "4":
+					requirement_status_name = "Feedback";
+					break;
+				case "5":
+					requirement_status_name = "Closed";
+					break;
+				case "6":
+					requirement_status_name = "Rejected";
+					break;
+				default:
+					break;
+			}
+            document.getElementById("reqbox").innerHTML += ""+objects.weekly_requirement[i].requirement_name+" (" +requirement_status_name+ ")<br>";
         }        
     }
     else if(objects.requirement){
@@ -192,8 +216,9 @@ function projectTestcases(){
 /* CREATE CODE REVISIONS */
 
 function projectCoderevisions(){
-    if(objects.weekly_report){  
-        document.getElementById("revisionbox").innerHTML += objects.weekly_report[0].code_revisions+"<br>";
+    if(objects.weekly_report){
+		var decodedJSON = JSON.parse(objects.weekly_report[0].code_revisions);
+        document.getElementById("revisionbox").innerHTML += decodedJSON[0].name + "<br>";
     }
 }
 
@@ -202,9 +227,10 @@ function projectCoderevisions(){
 
 function commitsToVersionCtrl(){
     if(objects.weekly_report){
-        
+      
        if(objects.weekly_report[0].code_revisions){
-        document.getElementById("commitbox").innerHTML += objects.weekly_report[0].code_revisions+"<br>";        
+		   var decodedJSON 	= JSON.parse(objects.weekly_report[0].code_revisions);
+		   document.getElementById("commitbox").innerHTML += decodedJSON[0].name + "<br>";        
        }
     }
 }
