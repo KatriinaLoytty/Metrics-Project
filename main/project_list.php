@@ -7,7 +7,7 @@
 <html>
 <head>
 	
-<Title>Project List1 Hello</title>
+<Title>Project List1 Hello2</title>
  <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
  <script src="scripts/jquery-1.11.1.min.js"></script>
  <script src="scripts/metrics-elements-1.0.0.js"></script>
